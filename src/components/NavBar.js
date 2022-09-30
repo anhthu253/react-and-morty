@@ -4,7 +4,10 @@ import { Link, NavLink } from "react-router-dom";
 export default function NavBar() {
   return (
     <StyledNavBar>
-      <a href="#">Home</a>
+      <NavLink to="/" end>
+        Home
+      </NavLink>
+      <NavLink to="details">Details</NavLink>
     </StyledNavBar>
   );
 }
