@@ -31,7 +31,7 @@ function App() {
     });
 
     setCharacters((characters) =>
-      characters.lenght === 0
+      characters.length === 0
         ? profiles.map((profile) => {
             return {
               id: Math.random().toString(36).substring(2),
