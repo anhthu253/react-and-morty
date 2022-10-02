@@ -1,6 +1,5 @@
 import "./App.css";
 import Cards from "./pages/Cards";
-import Details from "./pages/Details";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ function App() {
   const [characters, setCharacters] = useState(
     JSON.parse(localStorage.getItem("characters")) ?? []
   );
+
   async function fetchCharacters() {
     const response = await fetch(rootURL);
     const result = await response.json();
@@ -39,7 +39,7 @@ function App() {
     );
   }
 
-  function moreDetails(id) {
+  function toggleDetails(id) {
     setCharacters(() =>
       characters.map((character) =>
         character.id === id
@@ -47,7 +47,24 @@ function App() {
           : character
       )
     );
-    navigate("/details");
+  }
+
+  function moreDetails(id) {
+    setCharacters(() =>
+      characters.map((character) =>
+        character.id === id ? { ...character, detail: true } : character
+      )
+    );
+  }
+
+  function setFavorite(id) {
+    setCharacters(() =>
+      characters.map((character) =>
+        character.id === id
+          ? { ...character, favorite: !character.favorite }
+          : character
+      )
+    );
   }
   console.log(characters);
   useEffect(() => {
@@ -55,7 +72,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("character", JSON.stringify(characters));
+    localStorage.setItem("characters", JSON.stringify(characters));
   }, [characters]);
 
   return (
@@ -68,16 +85,41 @@ function App() {
           element={
             <Cards
               characters={characters}
-              onDetails={(id) => moreDetails(id)}
+              showMore={false}
+              markFavorite={false}
+              displayFavorite={false}
+              onMoreDetails={(id, index) => {
+                moreDetails(id);
+                navigate("/details/" + index);
+              }}
             />
           }
         ></Route>
+        {characters.map((character, index) => (
+          <Route
+            path={`/details/${index}`}
+            element={
+              <Cards
+                characters={[character]}
+                showMore={character.detail}
+                onMoreDetails={(id, index) => toggleDetails(id)}
+                markFavorite={character.favorite}
+                onSetFavorite={(id) => setFavorite(id)}
+                displayFavorite={true}
+              />
+            }
+          ></Route>
+        ))}
         <Route
-          path="/details"
+          path="/favorites"
           element={
             <Cards
-              characters={characters.filter((character) => character.detail)}
-              onDetails={(id) => moreDetails(id)}
+              characters={characters.filter((character) => character.favorite)}
+              onMoreDetails={(id, index) => toggleDetails(id)}
+              showMore="unknown"
+              markFavorite="unknown"
+              onSetFavorite={(id) => setFavorite(id)}
+              displayFavorite={true}
             />
           }
         ></Route>

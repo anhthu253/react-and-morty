@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import Card from "../components/Card";
 import styled from "styled-components";
 
-export default function Cards({ characters, onDetails }) {
+export default function Cards({
+  characters,
+  showMore,
+  markFavorite,
+  onMoreDetails,
+  onSetFavorite,
+  displayFavorite,
+}) {
   //const rootURL = "https://rickandmortyapi.com/api/character";
   /*   const [characters, setCharacters] = useState([]);
   async function fetchCharacters() {
@@ -48,12 +55,17 @@ export default function Cards({ characters, onDetails }) {
 
   return (
     <StyledCards>
-      {characters.map((character) => (
+      {characters.map((character, index) => (
         <Card
           key={character.id}
           profile={character.profile}
-          moredetail={character.detail}
-          showMore={() => onDetails(character.id)}
+          needDetails={showMore === "unknown" ? character.detail : showMore}
+          onDetails={() => onMoreDetails(character.id, index)}
+          isFavorite={
+            markFavorite === "unknown" ? character.favorite : markFavorite
+          }
+          favOption={displayFavorite}
+          setFavorite={() => onSetFavorite(character.id)}
         />
       ))}
     </StyledCards>

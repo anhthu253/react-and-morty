@@ -1,19 +1,50 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 
-export default function Card({ profile, moredetail, showMore }) {
+export default function Card({
+  profile,
+  favOption,
+  isFavorite,
+  setFavorite,
+  needDetails,
+  onDetails,
+}) {
   const { name, avatar, type, status, occurrences } = profile;
 
-  const style = {
-    display: moredetail ? "block" : "none",
-  };
   return (
     <StyledCard>
       <ImageContainer>
+        <FavButton
+          style={{
+            display: favOption ? "block" : "none",
+          }}
+          onClick={setFavorite}
+        >
+          <FontAwesomeIcon
+            icon={faStar}
+            style={{
+              display: isFavorite ? "none" : "block",
+            }}
+            fontSize="20px"
+          />
+          <FontAwesomeIcon
+            icon={faStarSolid}
+            style={{
+              display: isFavorite ? "block" : "none",
+            }}
+            fontSize="20px"
+          />
+        </FavButton>
         <img src={avatar} alt={name} />
         <h2>{name}</h2>
       </ImageContainer>
-      <button onClick={showMore}>{moredetail ? "Hide" : "Show more"}</button>
-      <ContentContainer style={style}>
+      <button onClick={onDetails}>
+        {needDetails ? "Show less" : "Show more"}
+      </button>
+
+      <ContentContainer style={{ display: needDetails ? "block" : "none" }}>
         <CardInfo>
           <dt>Status</dt>
           <Description>{status}</Description>
@@ -27,6 +58,17 @@ export default function Card({ profile, moredetail, showMore }) {
   );
 }
 
+const FavButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background: transparent;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
 const StyledCard = styled.li`
   position: relative;
   color: var(--granite);
