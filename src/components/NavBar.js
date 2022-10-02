@@ -8,6 +8,7 @@ export default function NavBar() {
         Home
       </NavLink>
       <NavLink to="details">Details</NavLink>
+      <NavLink to="favorites">Favorites</NavLink>
     </StyledNavBar>
   );
 }
@@ -19,4 +20,7 @@ const StyledNavBar = styled.nav`
   left: 0;
   width: 100%;
   height: 80px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
 `;
