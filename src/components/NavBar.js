@@ -7,7 +7,7 @@ export default function NavBar() {
       <NavLink to="/" end>
         Home
       </NavLink>
-      <NavLink to="details">Details</NavLink>
+      <NavLink to="random">Random</NavLink>
       <NavLink to="favorites">Favorites</NavLink>
     </StyledNavBar>
   );
