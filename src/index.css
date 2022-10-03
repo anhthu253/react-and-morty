@@ -1,7 +1,8 @@
 :root {
   /* Color Variables */
-  --primary: #3163a0;
-  --secondary: #16cd47e4;
+  --primary: #e7e8d1;
+  --secondary: #a7beae;
+  --body: #e7e8d1;
   --nemo: #ff4a11;
   --granite: #252629;
   --water: hsl(220, 33%, 96%);

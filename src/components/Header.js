@@ -10,7 +10,8 @@ const StyledHeader = styled.header`
   width: 100%;
   height: 80px;
   text-aligned: center;
-  background: var(--secondary);
+  background: var(--primary);
+  color: #06283d;
   position: relative;
 `;
 const HeaderContent = styled.h1`
