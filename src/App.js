@@ -23,7 +23,6 @@ function App() {
   const [randomCharacter, setRandomCharacter] = useState({});
 
   async function fetchRandomCharacter() {
-    console.log(fetchRandomIndex);
     const response = await fetch(rootURL + "/" + fetchRandomIndex);
     const result = await response.json();
 
@@ -188,6 +187,7 @@ function App() {
           element={
             <Random
               character={randomCharacter}
+              setCharacter={setRandomCharacter}
               getRandomIndex={() =>
                 setFetchRandomIndex(1 + Math.floor(Math.random() * 20))
               }

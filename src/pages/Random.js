@@ -2,13 +2,18 @@ import styled from "styled-components";
 import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Card from "../components/Card";
+import { useEffect } from "react";
 
 export default function Random({
   character,
+  setCharacter,
   onMoreDetails,
   getRandomIndex,
   getRandomApiIndex,
 }) {
+  useEffect(() => {
+    setCharacter(() => (character = {}));
+  }, []);
   return (
     <Section>
       {character.profile !== undefined ? (
