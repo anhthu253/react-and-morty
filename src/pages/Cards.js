@@ -14,15 +14,15 @@ export default function Cards({
     <StyledCards>
       {characters.map((character, index) => (
         <Card
-          key={character.id}
+          key={character.profile.id}
           profile={character.profile}
           needDetails={showMore === "unknown" ? character.detail : showMore}
-          onDetails={() => onMoreDetails(character.id, index)}
+          onDetails={() => onMoreDetails(character.profile.id)}
           isFavorite={
             markFavorite === "unknown" ? character.favorite : markFavorite
           }
           favOption={displayFavorite}
-          setFavorite={() => onSetFavorite(character.id)}
+          setFavorite={() => onSetFavorite(character.profile.id)}
         />
       ))}
     </StyledCards>

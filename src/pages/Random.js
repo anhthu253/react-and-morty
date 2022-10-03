@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import Card from "../components/Card";
 
-const rootURL = "https://rickandmortyapi.com/api/character";
 export default function Random({ character, onMoreDetails, getRandomIndex }) {
   return (
     <Section>
@@ -23,9 +21,7 @@ export default function Random({ character, onMoreDetails, getRandomIndex }) {
         </Questionmark>
       )}
 
-      <StyledButton onClick={getRandomIndex}>
-        Get Random API Character
-      </StyledButton>
+      <StyledButton onClick={getRandomIndex}>Get Random Character</StyledButton>
     </Section>
   );
 }
