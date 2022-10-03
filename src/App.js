@@ -19,6 +19,7 @@ function App() {
   );
 
   const [fetchRandomIndex, setFetchRandomIndex] = useState(0);
+
   const [randomCharacter, setRandomCharacter] = useState({});
 
   async function fetchRandomCharacter() {
@@ -69,20 +70,20 @@ function App() {
     );
   }
 
+  function moreDetails(id) {
+    setCharacters(() =>
+      characters.map((character) =>
+        character.profile.id === id ? { ...character, detail: true } : character
+      )
+    );
+  }
+
   function toggleDetails(id) {
     setCharacters(() =>
       characters.map((character) =>
         character.profile.id === id
           ? { ...character, detail: !character.detail }
           : character
-      )
-    );
-  }
-
-  function moreDetails(id) {
-    setCharacters(() =>
-      characters.map((character) =>
-        character.profile.id === id ? { ...character, detail: true } : character
       )
     );
   }
@@ -97,23 +98,29 @@ function App() {
     );
   }
 
-  function toggleRandomCharacterDetails() {
-    setRandomCharacter({ ...randomCharacter, detail: !randomCharacter.detail });
+  function isCharacterAdded(id) {
+    if (characters.length === 0) return false;
+    return (
+      characters.filter((character) => character.profile.id === id).length > 0
+    );
   }
-  function toggleRandomCharacterFavorite() {
-    setRandomCharacter({
-      ...randomCharacter,
-      favorite: !randomCharacter.favorite,
-    });
-  }
+
+  useEffect(() => {
+    fetchCharacters();
+  }, []);
 
   useEffect(() => {
     fetchRandomCharacter();
   }, [fetchRandomIndex]);
 
   useEffect(() => {
-    fetchCharacters();
-  }, []);
+    setCharacters((characters) =>
+      randomCharacter.profile !== undefined &&
+      !isCharacterAdded(randomCharacter.profile.id)
+        ? [...characters, randomCharacter]
+        : characters
+    );
+  }, [randomCharacter]);
 
   useEffect(() => {
     localStorage.setItem("characters", JSON.stringify(characters));
@@ -132,7 +139,9 @@ function App() {
           path="/"
           element={
             <Cards
-              characters={characters}
+              characters={characters.filter(
+                (character) => character.profile.id <= 20
+              )}
               showMore={false}
               markFavorite={false}
               displayFavorite={false}
@@ -143,6 +152,7 @@ function App() {
             />
           }
         ></Route>
+
         {characters.map((character) => (
           <Route
             path={`/details/${character.profile.id}`}
@@ -158,19 +168,6 @@ function App() {
             }
           ></Route>
         ))}
-        {/* <Route
-          path={`/details/${fetchRandomIndex}`}
-          element={
-            <Cards
-              characters={[randomCharacter]}
-              showMore={randomCharacter.detail}
-              onMoreDetails={(id => toggleRandomCharacterDetails()}
-              markFavorite={randomCharacter.favorite}
-              onSetFavorite={(id) => toggleRandomCharacterFavorite()}
-              displayFavorite={true}
-            />
-          }
-        ></Route> */}
 
         <Route
           path="/favorites"
@@ -194,8 +191,11 @@ function App() {
               getRandomIndex={() =>
                 setFetchRandomIndex(1 + Math.floor(Math.random() * 20))
               }
+              getRandomApiIndex={() =>
+                setFetchRandomIndex(21 + Math.floor(Math.random() * 20))
+              }
               onMoreDetails={() => {
-                toggleDetails(randomCharacter.profile.id);
+                moreDetails(randomCharacter.profile.id);
                 navigate("details/" + fetchRandomIndex);
               }}
             />

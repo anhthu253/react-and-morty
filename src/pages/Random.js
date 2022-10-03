@@ -3,7 +3,12 @@ import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Card from "../components/Card";
 
-export default function Random({ character, onMoreDetails, getRandomIndex }) {
+export default function Random({
+  character,
+  onMoreDetails,
+  getRandomIndex,
+  getRandomApiIndex,
+}) {
   return (
     <Section>
       {character.profile !== undefined ? (
@@ -22,6 +27,9 @@ export default function Random({ character, onMoreDetails, getRandomIndex }) {
       )}
 
       <StyledButton onClick={getRandomIndex}>Get Random Character</StyledButton>
+      <StyledButton onClick={getRandomApiIndex}>
+        Get Random API Character
+      </StyledButton>
     </Section>
   );
 }
@@ -40,4 +48,5 @@ const StyledButton = styled.button`
   padding: 10px;
   border-radius: 5px;
   margin-top: 20px;
+  margin-right: 10px;
 `;
